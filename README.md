@@ -65,6 +65,20 @@ mv cloudera/ /opt/
 cp mysql-connector-java-5.1.30.jar cm-5.7.1/share/cmf/lib/
 bash /opt/cm-5.7.1/share/cmf/schema/scm_prepare_database.sh mysql -h mgr.cdh.yu -uroot -p1q2w3e --scm-host mgr.cdh.yu scm scm scm
 ```
+* optional if failed permission issue when creating user and db in db
+```mysql
+create database scm
+drop user scm;
+create user scm identified by 'scm';
+grant all on scm.* to 'scm'@'%' identified by 'scm';
+grant all on scm.* to 'scm'@'localhost' identified by 'scm';
+GRANT ALL PRIVILEGES ON scm.* to scm@'172.20.78.250' identified by 'scm';
+flush privileges;
+```
+
+```
+bash /opt/cm-5.9.2/share/cmf/schema/scm_prepare_database.sh mysql -h mgr.cdh.yu -uroot -p1q2w3e --scm-host mgr.cdh.yu scm scm scm --force
+```
 
 * add parcel you would like to install in your parcel repo
 
